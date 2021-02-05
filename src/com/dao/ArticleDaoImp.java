@@ -8,23 +8,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.articlepack.Article;
-import com.database.DbConnection;
+import com.database.SingletonConnection;
 
 public class ArticleDaoImp implements ArticleDao {
 
 	@Override
 	public Article save(Article a) {
-		Connection conn = DbConnection.Connection();
+		Connection connection = SingletonConnection.getConnection();
+		
 		try {
-			PreparedStatement ps = conn.prepareStatement
+			PreparedStatement ps = connection.prepareStatement
 					("INSERT INTO articles(nom,text) VALUES (?,?)");
 			ps.setString(1, a.getNom());
 			ps.setString(2, a.getText());
 			ps.executeUpdate();
-			PreparedStatement ps2 = conn.prepareStatement
+			PreparedStatement ps2 = connection.prepareStatement
 			("SELECT MAX(id) AS MAX_id FROM articles");
 			ResultSet rs=ps2.executeQuery();
-			if(rs.next()) {
+			while(rs.next()) {
 				a.setId(rs.getInt("MAX_id"));
 			}
 			
@@ -39,9 +40,9 @@ public class ArticleDaoImp implements ArticleDao {
 	@Override
 	public List<Article> articleMc(String mc) {
 		List <Article> articles = new ArrayList<Article>();
-		Connection conn = DbConnection.Connection();
+		Connection connection = SingletonConnection.getConnection();
 		try {
-			PreparedStatement ps = conn.prepareStatement
+			PreparedStatement ps = connection.prepareStatement
 					("SELECT * FROM Articles WHERE nom LIKE ?");
 			ps.setString(1, mc);
 			ResultSet rs=ps.executeQuery();

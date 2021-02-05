@@ -10,35 +10,36 @@
 <title>Article Page</title>
 </head>
 <body>
-<p></p>
-<div class="container col-md-10 col-md-offset-1">
-        <div class="card card-primary">
-            <div class="card-heading">
-             <h6>Recherche Article</h6>
-            </div>
-            <div class="card-body">
-               <form action="cherche.do" method="get">
-                <label>Mot Clé</label>
-                <input type="text" name="motCle"/>
-                <button class="btn btn-primary" type="submit" >Cherche</button>
-               </form>
-               <table class="table">
-               <tr>
-               <th scope="col">ID</th scope="col"> <th scope="col">Nom</th>  <th scope="col">Text</th>
-               </tr>
-               <tr>
-               <c:forEach items="${model.articles}" var="a"> 
-               
-               <td scope="row">${a.id}</td>
-               <td scope="row">${a.nom}</td>
-               <td scope="row">${a.text}td>
-               
-               </c:forEach>
 
-               </tr>
-               </table>
-            </div>
-</div>  
+<p></p>
+<div class="container">
+<div class="card">
+  <div class="card-header">
+    Recherche des Articles
+  </div>
+  <div class="card-body">
+      <form action="chercher.do" method="get">
+        <label>Mot Clé</label>
+        <input type="text" name="motCle" value="${model.motCle}"/>
+        <button type="submit" class="btn btn-primary">Chercher</button>
+      </form>     
+      <table class="table table-striped">
+        <tr>
+          <th>ID</th><th>Nom</th><th>text</th><th>suprime</th><th>edit</th>
+         </tr>
+         
+           <tr>
+           <c:forEach items="${model.articles}" var="a">
+              <td>${a.id}</td>
+              <td>${a.nom}</td>
+              <td>${a.text}</td>
+              <td><a onclick="return confirm('Etes-vous sûr ?')" href="supprimer.do?id=${a.id}">Supprimer</a></td>
+               <td><a href="editer.do?id=${a.id}">Edit</a></td>
+         </c:forEach>
+        </tr>     
+      </table>
+  </div>
+</div>
 </div>
 
     <!-- Optional JavaScript -->
